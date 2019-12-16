@@ -15,5 +15,5 @@ class Player {
     int progress;
     int mistakes;
     Long startTime;
-    Long completionTime; //us
+    Long completionTime; 
 }

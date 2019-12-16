@@ -6,8 +6,13 @@
 package typecompeter;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -45,7 +50,15 @@ public class MainGui extends javax.swing.JFrame {
     }
     
     public void loadText(File f) {
-        System.out.println("run");
+	String text = "";
+	try {
+	    for (String s : Files.readAllLines(Paths.get(f.getPath()))) {
+		text+=s;
+	    }
+	} catch (IOException ex) {
+	    Logger.getLogger(MainGui.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	texts.add(new Text(text));
     }
     /**
      * This method is called from within the constructor to initialize the form.
