@@ -27,23 +27,31 @@ public class MainGui extends javax.swing.JFrame {
      * Creates new form MainGui
      */
     public MainGui() {
-        texts = new ArrayList();
-        initComponents();
+	initComponents();
+        initFiles();
+	super.setLocationRelativeTo(null);
+	texts = new ArrayList();
+    }
+    
+    public void initFiles() {
         File profileFolder = new File("Profiles");
-        boolean noProfiles = profileFolder.mkdir();
-        File textFolder = new File("Text");
-        if (!textFolder.exists()) {
-            textFolder.mkdir();
-        } else {
-            
-        }
-        System.out.println(noProfiles);
-        if (noProfiles) {
-            NewProfile p = new NewProfile(this, true);
-            p.setVisible(true);
+        profileFolder.mkdir();
+	
+        File textFolder = new File("Texts");
+	textFolder.mkdir();
+	
+	boolean genProfs = (profileFolder.list().length == 0);
+	
+	if (genProfs) {
+            NewProfile p = new NewProfile(this, false);
+	    p.setLocationRelativeTo(this);
+	    p.setVisible(true);
         }
     }
     
+    public void loadProfile(Profile p) {
+	//gui stuff
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -69,16 +77,16 @@ public class MainGui extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(146, 146, 146)
+                .addGap(60, 60, 60)
                 .addComponent(import_TextEvt)
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addContainerGap(634, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(233, Short.MAX_VALUE)
+                .addContainerGap(498, Short.MAX_VALUE)
                 .addComponent(import_TextEvt)
-                .addGap(39, 39, 39))
+                .addGap(21, 21, 21))
         );
 
         pack();

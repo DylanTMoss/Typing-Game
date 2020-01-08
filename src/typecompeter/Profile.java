@@ -21,4 +21,16 @@ class Profile implements Serializable{
         this.name = name;
         this.key = key;
     }
+
+    public String getName() {
+	return name;
+    }
+
+    public int getKey() {
+	return key;
+    }
+
+    public Map<Integer, Result> getDailyscores() {
+	return dailyscores;
+    }
 }

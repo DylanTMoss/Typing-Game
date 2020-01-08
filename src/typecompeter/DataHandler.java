@@ -5,8 +5,13 @@
  */
 package typecompeter;
 
-import com.google.common.collect.ImmutableMap;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,10 +20,7 @@ import java.util.ArrayList;
 public class DataHandler {
     
     //extensions for data whose names are generated automatically
-    private final ImmutableMap<Object,String> extensions = ImmutableMap.of(
-        Text.class, "tctx", 
-        Profile.class, "tcpf"
-    );
+   
     
     public static ArrayList<Text> getSavedTexts() {
         return null;
@@ -36,9 +38,17 @@ public class DataHandler {
     }
 
     public static void saveObject(Object o) {
+	
         if (o instanceof Profile) {
             Profile toSave = (Profile)o;
-            //save using the extensions immutablemap, saving profiels based on key(######.tcpf)
+	    try {
+		FileOutputStream saveFile = new FileOutputStream(new File("./Profiles/"+toSave.getKey()+".tcpf"));
+		ObjectOutputStream save = new ObjectOutputStream(saveFile);
+		save.writeObject(toSave);
+		save.close();
+	    } catch (Exception ex) {
+		Logger.getLogger(DataHandler.class.getName()).log(Level.SEVERE, null, ex);
+	    }
         }
         //same thing for texts
     }
