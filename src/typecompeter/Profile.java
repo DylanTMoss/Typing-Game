@@ -5,14 +5,20 @@
  */
 package typecompeter;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  *
  * @author dylan
  */
-class Profile {
+class Profile implements Serializable{
     String name;
     int key;
     Map<Integer, Result> dailyscores;
+    
+    Profile (String name, int key) {
+        this.name = name;
+        this.key = key;
+    }
 }

@@ -35,33 +35,15 @@ public class MainGui extends javax.swing.JFrame {
         if (!textFolder.exists()) {
             textFolder.mkdir();
         } else {
-            for (File file : textFolder.listFiles()) {
-                if (file.getName().matches("*.TCtxt")) {
-                    loadText(file);
-                }
-            }
+            
         }
+        System.out.println(noProfiles);
         if (noProfiles) {
-            createProfile();
+            NewProfile p = new NewProfile(this, true);
+            p.setVisible(true);
         }
     }
     
-    public void createProfile() {
-      
-    }
-    
-    public void loadText(File f) {
-	String text = "";
-	try {
-	    for (String s : Files.readAllLines(Paths.get(f.getPath()))) {
-		text+=s;
-	    }
-	} catch (IOException ex) {
-	    Logger.getLogger(MainGui.class.getName()).log(Level.SEVERE, null, ex);
-	}
-	texts.add(new Text(text));
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -105,10 +87,9 @@ public class MainGui extends javax.swing.JFrame {
     private void import_TextEvtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_import_TextEvtActionPerformed
         final JFileChooser jfc = new JFileChooser();
 	jfc.setMultiSelectionEnabled(true);
-	jfc.setCurrentDirectory(new File("./Text"));
 	int retVal = jfc.showOpenDialog(this.rootPane);
 	File[] selected = jfc.getSelectedFiles();
-	
+        
     }//GEN-LAST:event_import_TextEvtActionPerformed
 
     /**
