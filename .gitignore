@@ -1,1 +1,6 @@
-/dist/
+dist/
+nbproject/private/
+build/
+Text/
+Texts/
+Profiles/
