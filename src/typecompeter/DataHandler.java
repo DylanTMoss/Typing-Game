@@ -38,14 +38,21 @@ public class DataHandler {
     }
 
     public static void saveObject(Object o) {
-	
-        if (o instanceof Profile) {
-            Profile toSave = (Profile)o;
 	    try {
-		FileOutputStream saveFile = new FileOutputStream(new File("./Profiles/"+toSave.getKey()+".tcpf"));
-		ObjectOutputStream save = new ObjectOutputStream(saveFile);
-		save.writeObject(toSave);
-		save.close();
+                if (o instanceof Profile) {
+                    Profile toSave = (Profile)o;
+                    FileOutputStream saveFile = new FileOutputStream(new File("./Profiles/"+toSave.getKey()+".tcpf"));
+                    ObjectOutputStream save = new ObjectOutputStream(saveFile);
+                    save.writeObject(toSave);
+                    save.close();
+                }
+                if (o instanceof Text) {
+                    Text toSave = (Text)o;
+                    FileOutputStream saveFile = new FileOutputStream(new File("./Texts/"+toSave.identifier()+".tctxt"));
+                    ObjectOutputStream save = new ObjectOutputStream(saveFile);
+                    save.writeObject(toSave);
+                    save.close();
+                }
 	    } catch (Exception ex) {
 		Logger.getLogger(DataHandler.class.getName()).log(Level.SEVERE, null, ex);
 	    }
