@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,31 +33,38 @@ public class DataHandler {
         //iterate through "profiles" folder and return all
     }
     
-    public static Text generateText(String s) {
+    public static String parseText(File f) {
+        try {
+            String ret = "";
+            Scanner s = new Scanner(f);
+            while (s.hasNext()) {
+                ret+=s.next();
+            }
+            return ret;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DataHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
-        //create a text object given a string
     }
 
     public static void saveObject(Object o) {
-	    try {
-                if (o instanceof Profile) {
-                    Profile toSave = (Profile)o;
-                    FileOutputStream saveFile = new FileOutputStream(new File("./Profiles/"+toSave.getKey()+".tcpf"));
-                    ObjectOutputStream save = new ObjectOutputStream(saveFile);
-                    save.writeObject(toSave);
-                    save.close();
-                }
-                if (o instanceof Text) {
-                    Text toSave = (Text)o;
-                    FileOutputStream saveFile = new FileOutputStream(new File("./Texts/"+toSave.identifier()+".tctxt"));
-                    ObjectOutputStream save = new ObjectOutputStream(saveFile);
-                    save.writeObject(toSave);
-                    save.close();
-                }
-	    } catch (Exception ex) {
-		Logger.getLogger(DataHandler.class.getName()).log(Level.SEVERE, null, ex);
-	    }
+        try {
+            if (o instanceof Profile) {
+                Profile toSave = (Profile)o;
+                FileOutputStream saveFile = new FileOutputStream(new File("./Profiles/"+toSave.getKey()+".tcpf"));
+                ObjectOutputStream save = new ObjectOutputStream(saveFile);
+                save.writeObject(toSave);
+                save.close();
+            }
+            if (o instanceof Text) {
+                Text toSave = (Text)o;
+                FileOutputStream saveFile = new FileOutputStream(new File("./Texts/"+toSave.getName()+".tctxt"));
+                ObjectOutputStream save = new ObjectOutputStream(saveFile);
+                save.writeObject(toSave);
+                save.close();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DataHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //same thing for texts
     }
 }

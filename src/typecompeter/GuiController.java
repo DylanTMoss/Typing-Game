@@ -5,13 +5,17 @@
  */
 package typecompeter;
 
+import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javax.swing.JFileChooser;
+
+
 /**
  *
  * @author moss_899291
  */
 public class GuiController {
-    
-    // create a profile
     public void profileGoals() {
 	
     }
@@ -21,6 +25,17 @@ public class GuiController {
     }
     
     public void importText() {
-	
+	JFileChooser fc = new JFileChooser();
+        int ret = fc.showOpenDialog(null);
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            File f = fc.getSelectedFile();
+            String s = DataHandler.parseText(f);
+            String[] parts = (f.getName()).split("\\.");
+            if (s != null) {
+                Text t = new Text(parts[0],s);
+            } else {
+                //make error gui
+            }
+        }
     }
 }

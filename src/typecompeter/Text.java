@@ -13,15 +13,22 @@ import java.util.TreeSet;
  * @author dylan
  */
 public class Text implements Serializable{
+    String name;
     char[] text;
     TreeSet<Result> highScores;
     
-    public Text(String text) {
+    public Text(String name, String text) {
+        this.name = name;
         this.text = text.toCharArray();
     }
     
-    public Text(String text, TreeSet<Result> highScores) {
+    public Text(String name, String text, TreeSet<Result> highScores) {
+        this.name = name;
         this.text = text.toCharArray();
         this.highScores = highScores;
+    }
+    
+    public String getName() {
+        return name;
     }
 }
