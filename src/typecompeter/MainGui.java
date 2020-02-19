@@ -13,7 +13,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
-public class MainGui extends Application { 
+public class MainGui extends Application {
+    
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("MainGui.fxml"));
         Scene scene = new Scene(root);

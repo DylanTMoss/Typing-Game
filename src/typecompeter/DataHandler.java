@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.TableView;
 
 /**
  *
@@ -32,6 +33,7 @@ public class DataHandler {
         return null;
         //iterate through "profiles" folder and return all
     }
+    
     
     public static String parseText(File f) {
         try {

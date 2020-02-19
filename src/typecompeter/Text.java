@@ -13,9 +13,10 @@ import java.util.TreeSet;
  * @author dylan
  */
 public class Text implements Serializable{
-    String name;
-    char[] text;
-    TreeSet<Result> highScores;
+    private String name;
+    private char[] text;
+    private TreeSet<Result> highScores;
+    private int size;
     
     public Text(String name, String text) {
         this.name = name;
@@ -30,5 +31,13 @@ public class Text implements Serializable{
     
     public String getName() {
         return name;
+    }
+    
+    public char[] getText() {
+	return text;
+    }
+    
+    public int getSize() {
+	return text.length;
     }
 }

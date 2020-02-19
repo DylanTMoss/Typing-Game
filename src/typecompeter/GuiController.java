@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javax.swing.JFileChooser;
 
 
@@ -21,9 +22,14 @@ import javax.swing.JFileChooser;
  * @author moss_899291
  */
 public class GuiController {
-    public TableView tcnames;
-    public TableView tccharcts;
-    
+    @FXML private TableView textTable;
+    @FXML private TableColumn tcnames;
+    @FXML private TableColumn tcchars;
+    @FXML
+    public void initialize() {
+	tcnames.setCellValueFactory(new PropertyValueFactory<>("name"));
+	tcchars.setCellValueFactory(new PropertyValueFactory<>("size"));
+    }
     public void profileGoals() {
 	
     }
@@ -31,7 +37,7 @@ public class GuiController {
     public void switchProfile() {
 	
     }
-
+    @FXML
     public void importText() {
 	JFileChooser fc = new JFileChooser();
         int ret = fc.showOpenDialog(null);
@@ -40,15 +46,10 @@ public class GuiController {
             String s = DataHandler.parseText(f);
             String[] parts = (f.getName()).split("\\.");
             if (s != null) {
-                Text t = new Text(parts[0],s);
-		addActiveText(t);
+		textTable.getItems().add(new Text(parts[0],s));
             } else {
                 //make error gui
             }
         }
-    }
-    
-    private void addActiveText(Text t) {
-	tcnames.
     }
 }
