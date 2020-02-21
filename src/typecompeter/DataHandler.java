@@ -6,9 +6,14 @@
 package typecompeter;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -30,8 +35,22 @@ public class DataHandler {
     }
     
     public static ArrayList<Profile> getSavedProfiles() {
-        return null;
-        //iterate through "profiles" folder and return all
+        ArrayList<Profile> ret = new ArrayList<>();
+        try {
+            
+            Path profiles = new File("../Profiles/").toPath();
+            DirectoryStream<Path> stream = Files.newDirectoryStream(profiles);
+            for (Path p: stream) {
+               FileInputStream toLoad = new FileInputStream(p.toFile());
+               ObjectInputStream profileLoada = new ObjectInputStream(toLoad);
+               Profile prf = (Profile) profileLoada.readObject();
+               ret.add(prf);
+            }
+            return ret;
+        } catch (Exception e) {
+                return ret;
+        }
+        
     }
     
     
@@ -53,14 +72,14 @@ public class DataHandler {
         try {
             if (o instanceof Profile) {
                 Profile toSave = (Profile)o;
-                FileOutputStream saveFile = new FileOutputStream(new File("./Profiles/"+toSave.getKey()+".tcpf"));
+                FileOutputStream saveFile = new FileOutputStream(new File("../Profiles/"+toSave.getKey()+".tcpf"));
                 ObjectOutputStream save = new ObjectOutputStream(saveFile);
                 save.writeObject(toSave);
                 save.close();
             }
             if (o instanceof Text) {
                 Text toSave = (Text)o;
-                FileOutputStream saveFile = new FileOutputStream(new File("./Texts/"+toSave.getName()+".tctxt"));
+                FileOutputStream saveFile = new FileOutputStream(new File("../Texts/"+toSave.getName()+".tctxt"));
                 ObjectOutputStream save = new ObjectOutputStream(saveFile);
                 save.writeObject(toSave);
                 save.close();

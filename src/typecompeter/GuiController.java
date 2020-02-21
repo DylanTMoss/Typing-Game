@@ -8,6 +8,8 @@ package typecompeter;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -31,16 +34,21 @@ import javax.swing.JFileChooser;
  */
 public class GuiController {
     @FXML private Pane main;
+    @FXML private Label currentRacer;
     @FXML private TextField name_input;
     @FXML private TextField key_input;
     @FXML private TableView textTable;
     @FXML private TableColumn tcnames;
     @FXML private TableColumn tcchars;
+    Map<Integer,Profile> loaded;
+    
     
     @FXML
     public void initialize() {
 	tcnames.setCellValueFactory(new PropertyValueFactory<Text,String>("name"));
 	tcchars.setCellValueFactory(new PropertyValueFactory<Text,Integer>("size"));
+        DataHandler.getSavedProfiles().stream().map(prf -> loaded.put(prf.getKey(), prf));
+        
     }
     public void profileGoals() throws IOException {
 	Stage stage = new Stage();
@@ -52,6 +60,7 @@ public class GuiController {
     public void switchProfile() {
 	
     }
+    
     @FXML
     public void importText() {
 	JFileChooser fc = new JFileChooser();

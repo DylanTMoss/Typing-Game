@@ -5,12 +5,20 @@
  */
 package typecompeter;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+
 /**
  *
  * @author dylan
  */
 public class TempController {
+    @FXML TextField name_input;
+    @FXML TextField key_input;
+    
     public void takeInput() {
+        Profile p = new Profile(name_input.getText(),Integer.parseInt(key_input.getText())); //add safeguard incase inputn is not integer
+        DataHandler.saveObject(p);
         
     }
 }

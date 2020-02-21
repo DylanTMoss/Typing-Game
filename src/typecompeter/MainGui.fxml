@@ -8,7 +8,7 @@
 
 <Pane fx:id="main" xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/8.0.211" fx:controller="typecompeter.GuiController">
    <children>
-      <Label layoutX="5.0" layoutY="4.0" prefHeight="17.0" prefWidth="267.0" text="Current Racer: null" />
+      <Label fx:id="currentRacer" layoutX="5.0" layoutY="4.0" prefHeight="17.0" prefWidth="267.0" text="Current Racer: null" />
       <Hyperlink layoutY="17.0" onMouseClicked="#switchProfile" prefHeight="23.0" prefWidth="113.0" text="Change Profile" />
       <Hyperlink layoutY="33.0" onMouseClicked="#profileGoals" prefHeight="23.0" prefWidth="103.0" text="Create Profile" />
       <Label layoutX="568.0" layoutY="5.0" pickOnBounds="false" text="Loaded Texts: 0" />
