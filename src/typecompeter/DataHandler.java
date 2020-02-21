@@ -38,7 +38,7 @@ public class DataHandler {
         ArrayList<Profile> ret = new ArrayList<>();
         try {
             
-            Path profiles = new File("../Profiles/").toPath();
+            Path profiles = new File("./Profiles/").toPath();
             DirectoryStream<Path> stream = Files.newDirectoryStream(profiles);
             for (Path p: stream) {
                FileInputStream toLoad = new FileInputStream(p.toFile());
@@ -71,15 +71,19 @@ public class DataHandler {
     public static void saveObject(Object o) {
         try {
             if (o instanceof Profile) {
+                
                 Profile toSave = (Profile)o;
-                FileOutputStream saveFile = new FileOutputStream(new File("../Profiles/"+toSave.getKey()+".tcpf"));
+                FileOutputStream saveFile = new FileOutputStream("./Profiles/"+toSave.getKey()+".tcpf");
                 ObjectOutputStream save = new ObjectOutputStream(saveFile);
+                
                 save.writeObject(toSave);
                 save.close();
+                saveFile.close();
+                
             }
             if (o instanceof Text) {
                 Text toSave = (Text)o;
-                FileOutputStream saveFile = new FileOutputStream(new File("../Texts/"+toSave.getName()+".tctxt"));
+                FileOutputStream saveFile = new FileOutputStream("./Texts/"+toSave.getName()+".tctxt");
                 ObjectOutputStream save = new ObjectOutputStream(saveFile);
                 save.writeObject(toSave);
                 save.close();
