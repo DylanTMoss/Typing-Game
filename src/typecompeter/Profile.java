@@ -12,12 +12,12 @@ import java.util.Map;
  *
  * @author dylan
  */
-class Profile implements Serializable{
+public class Profile implements Serializable{
     String name;
     int key;
     Map<Integer, Result> dailyscores;
     
-    Profile (String name, int key) {
+    public Profile (String name, int key) {
         this.name = name;
         this.key = key;
     }

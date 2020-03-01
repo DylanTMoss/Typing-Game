@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="main" xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/8.0.211" fx:controller="typecompeter.GuiController">
+<Pane fx:id="main" xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/8.0.211" fx:controller="fxml.GuiController">
    <children>
       <Label fx:id="currentRacer" layoutX="5.0" layoutY="4.0" prefHeight="17.0" prefWidth="267.0" text="Current Racer: null" />
       <Hyperlink layoutY="17.0" onMouseClicked="#switchProfile" prefHeight="23.0" prefWidth="113.0" text="Change Profile" />

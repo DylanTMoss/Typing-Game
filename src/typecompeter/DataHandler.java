@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.DirectoryStream;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.control.TableView;
+import typecompeter.Profile;
 
 /**
  *
@@ -40,15 +41,18 @@ public class DataHandler {
             
             Path profiles = new File("./Profiles/").toPath();
             DirectoryStream<Path> stream = Files.newDirectoryStream(profiles);
+            
             for (Path p: stream) {
                FileInputStream toLoad = new FileInputStream(p.toFile());
                ObjectInputStream profileLoada = new ObjectInputStream(toLoad);
                Profile prf = (Profile) profileLoada.readObject();
                ret.add(prf);
+               
             }
             return ret;
-        } catch (Exception e) {
-                return ret;
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("uh oh");
+            return ret;
         }
         
     }

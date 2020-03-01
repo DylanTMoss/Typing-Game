@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="263.0" xmlns="http://javafx.com/javafx/8.0.241" xmlns:fx="http://javafx.com/fxml/1" fx:controller="typecompeter.TempController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="263.0" xmlns="http://javafx.com/javafx/8.0.241" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.ProfileCreationController">
    <children>
-      <Button fx:id="button_create" layoutX="190.0" layoutY="37.0" mnemonicParsing="false" prefHeight="105.0" prefWidth="59.0" text="Create" onMouseClicked="#takeInput" />
+      <Button layoutX="190.0" layoutY="37.0" mnemonicParsing="false" prefHeight="105.0" prefWidth="59.0" text="Create" onMouseClicked="#takeInput"/>
       <Label layoutX="19.0" layoutY="14.0" text="Name" />
       <Label layoutX="19.0" layoutY="77.0" text="Integer Key (6+ chars)" />
       <TextField fx:id="key_input" layoutX="19.0" layoutY="110.0" />

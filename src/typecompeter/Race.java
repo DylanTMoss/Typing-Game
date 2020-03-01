@@ -6,6 +6,8 @@
 package typecompeter;
 
 import java.util.ArrayList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 /**
  *
@@ -13,4 +15,19 @@ import java.util.ArrayList;
  */
 public class Race {
     ArrayList<Player> players;
+    
+    public Race() {
+        this.players = new ArrayList();
+        //Parent root = FXMLLoader.load();
+    }
+    
+    public Race(ArrayList<Player> players) {
+        this.players = players;
+        //Parent root = FXMLLoader.load();
+    }
+    
+    public void add(Player p) {
+        players.add(p);
+        
+    }
 }
