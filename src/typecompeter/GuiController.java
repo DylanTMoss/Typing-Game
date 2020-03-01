@@ -7,29 +7,17 @@ package typecompeter;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javax.swing.JFileChooser;
-import typecompeter.DataHandler;
-import typecompeter.Profile;
-import typecompeter.Text;
 
 
 /**
@@ -42,8 +30,9 @@ public class GuiController {
     @FXML private TableView textTable;
     @FXML private TableColumn tcnames;
     @FXML private TableColumn tcchars;
-    ArrayList<Profile> loaded;
-    
+    public ArrayList<Profile> loaded;
+    public Profile currentProfile;
+
     
     @FXML
     public void initialize() {
@@ -51,20 +40,33 @@ public class GuiController {
 	tcnames.setCellValueFactory(new PropertyValueFactory<Text,String>("name"));
 	tcchars.setCellValueFactory(new PropertyValueFactory<Text,Integer>("size"));
         DataHandler.getSavedProfiles().stream().forEach(prf -> loaded.add(prf));
+        
         if (!loaded.isEmpty()) {
             currentRacer.setText("Current Racer: " + loaded.get(0).getName().trim());
+            currentProfile = loaded.get(0);
         }
+        
+        updateTextTable();
         
     }
     public void profileGoals() throws IOException {
 	Stage stage = new Stage();
-        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("ProfileCreation.fxml")));
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../fxml/ProfileCreation.fxml")));
         stage.setScene(scene);
         stage.show();
     }
     
     public void switchProfile() {
-	
+	//make this not lazy
+        
+        if (loaded.indexOf(currentProfile) + 1 < loaded.size()) {
+            currentRacer.setText("Current Racer: " + loaded.get(loaded.indexOf(currentProfile) + 1).getName().trim());
+            currentProfile = loaded.get(loaded.indexOf(currentProfile) + 1);
+        } else {
+            currentRacer.setText("Current Racer: " + loaded.get(0).getName().trim());
+            currentProfile = loaded.get(0);
+        }
+        
     }
     
     @FXML
@@ -76,10 +78,19 @@ public class GuiController {
             String s = DataHandler.parseText(f);
             String[] parts = (f.getName()).split("\\.");
             if (s != null) {
-		textTable.getItems().add(new Text(parts[0],s));
+                Text tmp = new Text(parts[0],s);
+                DataHandler.saveObject(tmp);
+                updateTextTable();
             } else {
                 //make error gui
             }
         }
+    }
+
+    @FXML
+    private void updateTextTable() {
+        DataHandler.getSavedTexts().forEach((_item) -> {
+            textTable.getItems().add(_item);
+        });
     }
 }

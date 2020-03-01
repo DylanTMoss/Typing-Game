@@ -5,14 +5,12 @@
  */
 package typecompeter;
 
-import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import typecompeter.DataHandler;
-import typecompeter.Profile;
 
 /**
  *
@@ -28,5 +26,6 @@ public class ProfileCreationController {
         DataHandler.saveObject(p);
         Stage closeMe = (Stage) rootPane.getScene().getWindow();
         closeMe.close();
+        //send profile update event to reload loaded profiles
     }
 }

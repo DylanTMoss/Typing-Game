@@ -26,11 +26,23 @@ import java.util.logging.Logger;
  */
 public class DataHandler {
     
-    //extensions for data whose names are generated automatically
-   
-    
     public static ArrayList<Text> getSavedTexts() {
-        return null;
+        ArrayList<Text> ret = new ArrayList<>();
+        try {
+            Path profiles = new File("./Texts/").toPath();
+            DirectoryStream<Path> stream = Files.newDirectoryStream(profiles);
+            
+            for (Path p: stream) {
+               FileInputStream toLoad = new FileInputStream(p.toFile());
+               ObjectInputStream textLoada = new ObjectInputStream(toLoad);
+               Text txt = (Text) textLoada.readObject();
+               ret.add(txt);
+            }
+            return ret;
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("uh doh");
+            return ret;
+        }
         //iterate through "texts" folder and return all
     }
     

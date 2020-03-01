@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="263.0" xmlns="http://javafx.com/javafx/8.0.241" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.ProfileCreationController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="163.0" prefWidth="263.0" xmlns="http://javafx.com/javafx/8.0.241" xmlns:fx="http://javafx.com/fxml/1" fx:controller="typecompeter.ProfileCreationController">
    <children>
       <Button layoutX="190.0" layoutY="37.0" mnemonicParsing="false" prefHeight="105.0" prefWidth="59.0" text="Create" onMouseClicked="#takeInput"/>
       <Label layoutX="19.0" layoutY="14.0" text="Name" />
