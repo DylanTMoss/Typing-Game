@@ -50,8 +50,7 @@ public class GuiController {
         loaded = new ArrayList();
 	tcnames.setCellValueFactory(new PropertyValueFactory<Text,String>("name"));
 	tcchars.setCellValueFactory(new PropertyValueFactory<Text,Integer>("size"));
-        DataHandler.getSavedProfiles().stream().map(prf -> loaded.add(prf));
-        loaded.toString();
+        DataHandler.getSavedProfiles().stream().forEach(prf -> loaded.add(prf));
         if (!loaded.isEmpty()) {
             currentRacer.setText("Current Racer: " + loaded.get(0).getName().trim());
         }

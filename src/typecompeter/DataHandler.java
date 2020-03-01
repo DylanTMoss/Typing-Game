@@ -46,7 +46,6 @@ public class DataHandler {
                ObjectInputStream profileLoada = new ObjectInputStream(toLoad);
                Profile prf = (Profile) profileLoada.readObject();
                ret.add(prf);
-               
             }
             return ret;
         } catch (IOException | ClassNotFoundException e) {
