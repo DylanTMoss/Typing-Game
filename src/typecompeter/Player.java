@@ -14,6 +14,30 @@ class Player {
     Text words;
     int progress;
     int mistakes;
+    int defaultCpm;
     Long startTime;
-    Long completionTime; 
+    Long completionTime;
+    
+    public Player() {
+        user = null;
+        words = null;
+        progress = 0;
+        mistakes = 0;
+        defaultCpm  = 500;
+        startTime = 0L;
+        completionTime = 0L;
+    }
+    
+    public Player(Profile p) {
+        user = p;
+        words = null;
+        progress = 0;
+        mistakes = 0;
+        startTime = 0L;
+        completionTime = 0L;
+    }
+    
+    public void setText(Text t) {
+        words = t;
+    }
 }

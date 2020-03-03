@@ -34,6 +34,7 @@ public class GuiController {
     public ArrayList<Text> texts;
     public ArrayList<Profile> loaded;
     public Profile currentProfile;
+    int bots = 1;
 
     
     @FXML
@@ -66,8 +67,17 @@ public class GuiController {
         } else {
             currentRacer.setText("Current Racer: " + loaded.get(0).getName().trim());
             currentProfile = loaded.get(0);
+        } 
+    }
+    
+    public void startGame() throws IOException {
+        int n = (int) (Math.random() * texts.size());
+        ArrayList<Player> plrs = new ArrayList();
+        Player user = new Player(currentProfile);
+        for (int i = 0; i < bots; i++) {
+            plrs.add(new Player());
         }
-        
+        Race r = new Race(plrs, texts.get(n));
     }
     
     @FXML
