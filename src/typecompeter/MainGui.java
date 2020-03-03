@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 public class MainGui extends Application {
     
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("MainGui.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../fxml/MainGui.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();

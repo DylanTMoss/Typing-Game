@@ -27,9 +27,11 @@ import javax.swing.JFileChooser;
 public class GuiController {
     @FXML private Pane main;
     @FXML private Label currentRacer;
+    @FXML private Label loadedTexts;
     @FXML private TableView textTable;
     @FXML private TableColumn tcnames;
     @FXML private TableColumn tcchars;
+    public ArrayList<Text> texts;
     public ArrayList<Profile> loaded;
     public Profile currentProfile;
 
@@ -45,7 +47,6 @@ public class GuiController {
             currentRacer.setText("Current Racer: " + loaded.get(0).getName().trim());
             currentProfile = loaded.get(0);
         }
-        
         updateTextTable();
         
     }
@@ -57,7 +58,7 @@ public class GuiController {
     }
     
     public void switchProfile() {
-	//make this not lazy
+	//remove cycling and add actual UI
         
         if (loaded.indexOf(currentProfile) + 1 < loaded.size()) {
             currentRacer.setText("Current Racer: " + loaded.get(loaded.indexOf(currentProfile) + 1).getName().trim());
@@ -89,8 +90,10 @@ public class GuiController {
 
     @FXML
     private void updateTextTable() {
-        DataHandler.getSavedTexts().forEach((_item) -> {
-            textTable.getItems().add(_item);
-        });
+        texts = DataHandler.getSavedTexts();
+        for (Text t : texts) {
+            textTable.getItems().add(t);
+        }
+        loadedTexts.setText("Loaded Texts: " + texts.size());
     }
 }
