@@ -13,9 +13,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import fxml.GameGui;
+import java.util.Map;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
 /**
  *
@@ -23,25 +25,29 @@ import javafx.scene.control.TextField;
  */
 public class Race {
     ArrayList<Player> players;
-    private Canvas race_canvas;
-    private TextArea textBox;
-    private TextField inputBox;
+    boolean started;
     
     public Race(ArrayList<Player> players, Text t) throws IOException {
+        started = false;
         this.players = players;
-        Stage stage = new Stage();
-        FXMLLoader loada = new FXMLLoader();
-        Scene scene = new Scene(loada.load(getClass().getResource("../fxml/GameGui.fxml").openStream()));
-        stage.setScene(scene);
-        stage.show();
-        GameGui g = (GameGui) loada.getController();
-        this.race_canvas = g.race_canvas;
-        this.textBox = g.textBox;
-        this.inputBox = g.inputBox;
-        textBox.setText(String.valueOf(t.getText())); //make textBox uneditable
+        for (Player p : players) {
+            p.setText(t);
+            p.setRace(this);
+        }
     }
     
-    public void add(Player p) {
-        players.add(p);
+    public void start() throws IOException {
+        started = true;
+        for (Player p : players) {
+            if (p.isPlayer()) {
+                p.initializePlr();
+            } else {
+                p.initializeBot();
+            }
+        }
+    }
+    
+    public boolean getStarted() {
+        return started;
     }
 }

@@ -74,10 +74,12 @@ public class GuiController {
         int n = (int) (Math.random() * texts.size());
         ArrayList<Player> plrs = new ArrayList();
         Player user = new Player(currentProfile);
+        plrs.add(user);
         for (int i = 0; i < bots; i++) {
             plrs.add(new Player());
         }
         Race r = new Race(plrs, texts.get(n));
+        r.start();
     }
     
     @FXML
