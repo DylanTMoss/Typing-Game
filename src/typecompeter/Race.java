@@ -25,6 +25,7 @@ import javafx.scene.input.KeyEvent;
  */
 public class Race {
     ArrayList<Player> players;
+    @FXML private Canvas theCanvas;
     boolean started;
     
     public Race(ArrayList<Player> players, Text t) throws IOException {
@@ -37,7 +38,6 @@ public class Race {
     }
     
     public void start() throws IOException {
-        started = true;
         for (Player p : players) {
             if (p.isPlayer()) {
                 p.initializePlr();
@@ -45,9 +45,14 @@ public class Race {
                 p.initializeBot();
             }
         }
+        started = true;
     }
     
     public boolean getStarted() {
         return started;
+    }
+    
+    public void setCanvas(Canvas c) {
+        theCanvas = c;
     }
 }
