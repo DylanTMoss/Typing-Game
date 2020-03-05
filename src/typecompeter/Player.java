@@ -54,6 +54,10 @@ class Player {
         completionTime = 0L;
     }
     
+    public void initializeBot() {
+        //update progress based on set cpm
+    }
+    
     public void initializePlr() throws IOException {
         Stage stage = new Stage();
         FXMLLoader loada = new FXMLLoader();
@@ -83,6 +87,7 @@ class Player {
                     onFinish();
                 }
                 percentCompletion = ((double) progress.length() / (double) words.getText().length);
+                curRace.update();
             }
         });
     }
@@ -100,9 +105,6 @@ class Player {
         return -1;
     }
     
-    public void initializeBot() {
-        //update progress based on set cpm
-    }
     
     public boolean isPlayer() {
         return user != null;
