@@ -7,6 +7,7 @@ package typecompeter;
 
 import fxml.GameGui;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -23,15 +24,14 @@ import javafx.stage.Stage;
  */
 class Player {
     Profile user;
-    Race curr;
+    Race curRace;
     Text words;
     String progress;
-    int percentCompletion;
+    double percentCompletion;
     int mistakes;
     int defaultCpm;
     Long startTime;
     Long completionTime;
-    private Canvas race_canvas;
     private TextArea textBox;
     private TextField inputBox;
     
@@ -61,25 +61,43 @@ class Player {
         stage.setScene(scene);
         stage.show();
         GameGui g = (GameGui) loada.getController();
-        this.race_canvas = g.race_canvas;
+        curRace.setCanvas(g.race_canvas);
         this.textBox = g.textBox;
         this.inputBox = g.inputBox;
         textBox.setText(String.valueOf(words.getText()));
-        inputBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        inputBox.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.BACK_SPACE) {
-                    progress = progress.substring(progress.length() -1);
-                    textBox.backward();
-                } else { 
-                    progress += event.getCode(); //fix this
-                    textBox.forward();
-                    //there is a highlight option somewhere, look in java docs
+                progress = inputBox.getText();
+                int diff = indexDiff();
+                if (diff == -1) {
+                    if (event.getCode() != KeyCode.BACK_SPACE) {
+                        mistakes++;
+                    }
+                    textBox.selectRange(0, 0);
+                } else {
+                    textBox.selectRange(diff, progress.length());
                 }
-                System.out.println(progress);
-                System.out.println(progress.equals(String.valueOf(words.getText())));
+                if (progress.equals(words.getText())) {
+                    //completionTime = 
+                    onFinish();
+                }
+                percentCompletion = ((double) progress.length() / (double) words.getText().length);
             }
         });
+    }
+    
+    private void onFinish() {
+        //handle updating profile, showing race stats, etc here
+    }
+    
+    private int indexDiff() {
+        for (int i=0; i < progress.length(); i++) {
+            if (progress.charAt(i) != words.getText()[i]) {
+                return i;
+            }
+        }
+        return -1;
     }
     
     public void initializeBot() {
@@ -89,20 +107,20 @@ class Player {
     public boolean isPlayer() {
         return user != null;
     }
-    
-    public void setRace(Race r) {
-        
-    }
-    
+
     public void setText(Text t) {
         words = t;
+    }
+    
+    public void setRace(Race r) {
+        curRace = r;
     }
     
     public void setDefaultCpm(int c) {
         defaultCpm = c;
     }
     
-    private void startTiming() {
-        
+    public double getPercentCompletion() {
+        return percentCompletion;
     }
 }
