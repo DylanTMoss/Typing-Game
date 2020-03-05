@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import fxml.GameGui;
 import java.util.Map;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -26,6 +27,7 @@ import javafx.scene.input.KeyEvent;
 public class Race {
     ArrayList<Player> players;
     @FXML private Canvas theCanvas;
+    GraphicsContext g;
     boolean started;
     
     public Race(ArrayList<Player> players, Text t) throws IOException {
@@ -34,8 +36,8 @@ public class Race {
         for (Player p : players) {
             p.setText(t);
             p.setRace(this);
-        }
-    }
+        } 
+   }
     
     public void start() throws IOException {
         for (Player p : players) {
@@ -54,5 +56,14 @@ public class Race {
     
     public void setCanvas(Canvas c) {
         theCanvas = c;
+        g = theCanvas.getGraphicsContext2D();
+    }
+
+    public void update() { //in the future make this update every second so updates arent sparratic
+        g.clearRect(0, 0, theCanvas.getWidth(), theCanvas.getHeight()); //clear the canvas
+        for (int i = 0; i < players.size(); i++) {
+            Player p = players.get(i);
+            g.fillOval(theCanvas.getWidth()*p.getPercentCompletion(), theCanvas.getHeight()/(i+2), 10, 10);
+        }
     }
 }
