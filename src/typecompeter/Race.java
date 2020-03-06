@@ -14,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import fxml.GameGui;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextArea;
@@ -28,6 +30,7 @@ public class Race {
     ArrayList<Player> players;
     @FXML private Canvas theCanvas;
     GraphicsContext g;
+    boolean isDone;
     boolean started;
     
     public Race(ArrayList<Player> players, Text t) throws IOException {
@@ -40,6 +43,7 @@ public class Race {
    }
     
     public void start() throws IOException {
+        isDone = false;
         for (Player p : players) {
             if (p.isPlayer()) {
                 p.initializePlr();
@@ -47,6 +51,20 @@ public class Race {
                 p.initializeBot();
             }
         }
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                while (!isDone) {
+                    try {
+                        Thread.sleep(500);
+                        update();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Race.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        };
+        new Thread(r).start();
         started = true;
     }
     

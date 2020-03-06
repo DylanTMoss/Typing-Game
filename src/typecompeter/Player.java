@@ -78,16 +78,16 @@ class Player {
                     if (event.getCode() != KeyCode.BACK_SPACE) {
                         mistakes++;
                     }
+                    percentCompletion = ((double) progress.length() / (double) words.getText().length);
                     textBox.selectRange(0, 0);
                 } else {
+                    percentCompletion = (double) (diff) / words.getText().length;
                     textBox.selectRange(diff, progress.length());
                 }
                 if (progress.equals(words.getText())) {
                     //completionTime = 
                     onFinish();
                 }
-                percentCompletion = ((double) progress.length() / (double) words.getText().length);
-                curRace.update();
             }
         });
     }
