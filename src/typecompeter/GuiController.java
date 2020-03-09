@@ -34,7 +34,7 @@ public class GuiController {
     public ArrayList<Text> texts;
     public ArrayList<Profile> loaded;
     public Profile currentProfile;
-    int bots = 1;
+    int bots = 5;
 
     
     @FXML

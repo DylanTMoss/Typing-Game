@@ -6,7 +6,9 @@
 package typecompeter;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  *
@@ -32,5 +34,11 @@ public class Profile implements Serializable{
 
     public Map<Integer, Result> getDailyscores() {
 	return dailyscores;
+    }
+    
+    public void addScore(Result r) {
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+        int date = c.get(Calendar.DATE);
+        System.out.println(date);
     }
 }

@@ -5,22 +5,15 @@
  */
 package typecompeter;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import fxml.GameGui;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -32,8 +25,10 @@ public class Race {
     GraphicsContext g;
     boolean isDone;
     boolean started;
+    Image img;
     
     public Race(ArrayList<Player> players, Text t) throws IOException {
+        this.img = new Image((new File("assets/Truck.png").toURI().toString()));
         started = false;
         this.players = players;
         for (Player p : players) {
@@ -81,7 +76,10 @@ public class Race {
         g.clearRect(0, 0, theCanvas.getWidth(), theCanvas.getHeight()); //clear the canvas
         for (int i = 0; i < players.size(); i++) {
             Player p = players.get(i);
-            g.fillOval(theCanvas.getWidth()*p.getPercentCompletion(), theCanvas.getHeight()/(i+2), 10, 10);
+            double heightCalc = (theCanvas.getHeight()-50) - (theCanvas.getHeight()-50)/(players.size()-1) * i;
+            g.drawImage(img, 40 + (theCanvas.getWidth()-120)*p.getPercentCompletion(), heightCalc);
+            g.fillText(p.getName(), 0, heightCalc+25);
+            //calc wpm
         }
     }
 }

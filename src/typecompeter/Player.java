@@ -34,10 +34,13 @@ class Player {
     Long completionTime;
     private TextArea textBox;
     private TextField inputBox;
+    private String name;
+    private String[] botNames = {"Monkey", "Mouse", "Macaw", "Mallard", "Manatee", "Mule", "Moose", "Mole", "Mink", "Mollusk", "Magpie", "Moth"};
     
     public Player() {
         user = null;
         words = null;
+        name  = botNames[(int) (Math.random() * botNames.length)];
         percentCompletion = 0;
         mistakes = 0;
         defaultCpm  = 500;
@@ -47,6 +50,7 @@ class Player {
     
     public Player(Profile p){
         user = p;
+        name = user.getName();
         words = null;
         percentCompletion = 0;
         mistakes = 0;
@@ -93,6 +97,9 @@ class Player {
     }
     
     private void onFinish() {
+        if (isPlayer()) {
+            
+        }
         //handle updating profile, showing race stats, etc here
     }
     
@@ -108,6 +115,10 @@ class Player {
     
     public boolean isPlayer() {
         return user != null;
+    }
+ 
+    public String getName() {
+        return name;
     }
 
     public void setText(Text t) {
