@@ -6,7 +6,9 @@
 package typecompeter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -20,6 +22,7 @@ public class Profile implements Serializable{
     Map<Integer, Result> dailyscores;
     
     public Profile (String name, int key) {
+        dailyscores = new HashMap();
         this.name = name;
         this.key = key;
     }
@@ -39,6 +42,15 @@ public class Profile implements Serializable{
     public void addScore(Result r) {
         Calendar c = Calendar.getInstance(TimeZone.getDefault());
         int date = c.get(Calendar.DATE);
-        System.out.println(date);
+        if (dailyscores != null) {
+            if (dailyscores.containsKey(date)){
+            r.cnt++;
+            dailyscores.get(date).addWpm(r.getWpm());
+            } else {
+                r.cnt++;
+                dailyscores.put(date, r);
+            }
+        }
+        
     }
 }

@@ -10,7 +10,34 @@ package typecompeter;
  * @author dylan
  */
 public class Result {
-    Profile user;
     int wpm;
-    Double accuracy;
+    public int cnt = 0;
+    double accuracy;
+
+    public Result(int wpm, Double accuracy) {
+        this.wpm = wpm;
+        this.accuracy = accuracy;
+    }
+    
+    public void addWpm(int wpm) {
+        cnt++;
+        this.wpm = ((this.wpm * cnt) + wpm) / cnt;
+    }
+
+
+    public int getWpm() {
+        return wpm;
+    }
+
+    public void setWpm(int wpm) {
+        this.wpm = wpm;
+    }
+
+    public Double getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(Double accuracy) {
+        this.accuracy = accuracy;
+    }
 }
