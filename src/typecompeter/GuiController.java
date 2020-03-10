@@ -73,6 +73,10 @@ public class GuiController {
     public void startGame() throws IOException {
         int n = (int) (Math.random() * texts.size());
         ArrayList<Player> plrs = new ArrayList();
+        if (currentProfile == null) {
+            profileGoals();
+            return;
+        }
         Player user = new Player(currentProfile);
         plrs.add(user);
         for (int i = 0; i < bots; i++) {
