@@ -79,7 +79,7 @@ public class Race {
             double heightCalc = (theCanvas.getHeight()-50) - (theCanvas.getHeight()-50)/(players.size()-1) * i;
             g.drawImage(img, 40 + (theCanvas.getWidth()-120)*p.getPercentCompletion(), heightCalc);
             g.fillText(p.getName(), 0, heightCalc+25);
-            //calc wpm
+            g.fillText(""+p.getWpm(), theCanvas.getWidth()-40, heightCalc);
         }
     }
 }

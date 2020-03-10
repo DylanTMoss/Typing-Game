@@ -7,7 +7,11 @@ package typecompeter;
 
 import fxml.GameGui;
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -23,19 +27,20 @@ import javafx.stage.Stage;
  * @author dylan
  */
 class Player {
-    Profile user;
+    public Profile user;
     Race curRace;
     Text words;
     String progress;
     double percentCompletion;
     int mistakes;
     int defaultCpm;
-    Long startTime;
-    Long completionTime;
+    long startTime;
+    long completionTime;
+    boolean finished = false;
     private TextArea textBox;
     private TextField inputBox;
     private String name;
-    private String[] botNames = {"Monkey", "Mouse", "Macaw", "Mallard", "Manatee", "Mule", "Moose", "Mole", "Mink", "Mollusk", "Magpie", "Moth"};
+    private final String[] botNames = {"Monkey", "Mouse", "Macaw", "Mallard", "Manatee", "Mule", "Moose", "Mole", "Mink", "Mollusk", "Magpie", "Moth"};
     
     public Player() {
         user = null;
@@ -44,22 +49,46 @@ class Player {
         percentCompletion = 0;
         mistakes = 0;
         defaultCpm  = 500;
-        startTime = 0L;
+        startTime = 0;
         completionTime = 0L;
+        progress ="";
     }
     
     public Player(Profile p){
         user = p;
-        name = user.getName();
+        name = p.name;
         words = null;
         percentCompletion = 0;
         mistakes = 0;
-        startTime = 0L;
+        startTime = 0;
         completionTime = 0L;
+        progress="";
     }
     
     public void initializeBot() {
-        //update progress based on set cpm
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                int i = 0;
+                while (i < words.getText().length && !finished) {
+                        if (startTime == 0) {
+                            startTime = Instant.now().toEpochMilli();
+                        }
+                        if (progress.equals(new String(words.getText()))) {
+                            completionTime = Instant.now().toEpochMilli();
+                            finished = true;
+                        }
+                        progress += words.getText()[i++];
+                        percentCompletion = ((double) progress.length() / (double) words.getText().length);
+                    try {
+                        Thread.sleep(1000/ ((long) ((defaultCpm / 60.0))));
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        };
+        new Thread(r).start();
     }
     
     public void initializePlr() throws IOException {
@@ -76,6 +105,9 @@ class Player {
         inputBox.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
+                if (startTime == 0) {
+                    startTime = Instant.now().toEpochMilli();
+                }
                 progress = inputBox.getText();
                 int diff = indexDiff();
                 if (diff == -1) {
@@ -88,8 +120,8 @@ class Player {
                     percentCompletion = (double) (diff) / words.getText().length;
                     textBox.selectRange(diff, progress.length());
                 }
-                if (progress.equals(words.getText())) {
-                    //completionTime = 
+                if (progress.equals(new String(words.getText()))) {
+                    completionTime = Instant.now().toEpochMilli();
                     onFinish();
                 }
             }
@@ -98,9 +130,10 @@ class Player {
     
     private void onFinish() {
         if (isPlayer()) {
-            
+            finished = true;
+            double accuracy = (double)mistakes/words.getSize();
+            user.addScore(new Result((int)getWpm(), accuracy));
         }
-        //handle updating profile, showing race stats, etc here
     }
     
     private int indexDiff() {
@@ -112,6 +145,21 @@ class Player {
         return -1;
     }
     
+    public double getWpm() {
+        //divide characters per minute by 5 rather than counting words bc better representaiton of speed
+        if (finished) {
+            double typed = (double) progress.length();
+            return ((typed * 60)/((completionTime - startTime)/1000.0)) / 5;
+        }
+        if (indexDiff() == -1) {
+            double typed = (double) progress.length();
+            return ((typed * 60)/((Instant.now().toEpochMilli() - startTime)/1000.0)) / 5;
+        } else {
+            double typed = indexDiff();
+            return ((typed * 60)/((Instant.now().toEpochMilli() - startTime)/1000.0)) / 5;
+        }
+
+    }
     
     public boolean isPlayer() {
         return user != null;
