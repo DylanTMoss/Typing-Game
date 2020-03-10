@@ -34,7 +34,7 @@ public class GuiController {
     public ArrayList<Text> texts;
     public ArrayList<Profile> loaded;
     public Profile currentProfile;
-    int bots = 5;
+    int bots = 8;
 
     
     @FXML
@@ -80,7 +80,7 @@ public class GuiController {
         Player user = new Player(currentProfile);
         plrs.add(user);
         for (int i = 0; i < bots; i++) {
-            plrs.add(new Player());
+            plrs.add(new Player(500));
         }
         Race r = new Race(plrs, texts.get(n));
         r.start();
@@ -102,6 +102,13 @@ public class GuiController {
                 //make error gui
             }
         }
+    }
+    
+    public void viewStats() throws IOException {
+        Stage stage = new Stage();
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../fxml/ProfileStats.fxml")));
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
