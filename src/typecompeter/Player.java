@@ -42,13 +42,13 @@ class Player {
     private String name;
     private final String[] botNames = {"Monkey", "Mouse", "Macaw", "Mallard", "Manatee", "Mule", "Moose", "Mole", "Mink", "Mollusk", "Magpie", "Moth"};
     
-    public Player() {
+    public Player(int cpm) {
         user = null;
         words = null;
         name  = botNames[(int) (Math.random() * botNames.length)];
         percentCompletion = 0;
         mistakes = 0;
-        defaultCpm  = 500;
+        defaultCpm = cpm - (int) (Math.random() * cpm/10);
         startTime = 0;
         completionTime = 0L;
         progress ="";
@@ -70,16 +70,17 @@ class Player {
             @Override
             public void run() {
                 int i = 0;
-                while (i < words.getText().length && !finished) {
-                        if (startTime == 0) {
-                            startTime = Instant.now().toEpochMilli();
-                        }
-                        if (progress.equals(new String(words.getText()))) {
-                            completionTime = Instant.now().toEpochMilli();
-                            finished = true;
-                        }
+                while (!finished) {
+                    if (startTime == 0) {
+                        startTime = Instant.now().toEpochMilli();
+                    }
+                    if (progress.equals(new String(words.getText()))) {
+                        finished = true;
+                        completionTime = Instant.now().toEpochMilli();
+                    } else {
                         progress += words.getText()[i++];
-                        percentCompletion = ((double) progress.length() / (double) words.getText().length);
+                    }
+                    percentCompletion = ((double) progress.length() / (double) words.getSize());
                     try {
                         Thread.sleep(1000/ ((long) ((defaultCpm / 60.0))));
                     } catch (InterruptedException ex) {
@@ -114,10 +115,10 @@ class Player {
                     if (event.getCode() != KeyCode.BACK_SPACE) {
                         mistakes++;
                     }
-                    percentCompletion = ((double) progress.length() / (double) words.getText().length);
+                    percentCompletion = ((double) progress.length() / (double) words.getSize());
                     textBox.selectRange(0, 0);
                 } else {
-                    percentCompletion = (double) (diff) / words.getText().length;
+                    percentCompletion = (double) (diff) / words.getSize();
                     textBox.selectRange(diff, progress.length());
                 }
                 if (progress.equals(new String(words.getText()))) {
@@ -149,14 +150,14 @@ class Player {
         //divide characters per minute by 5 rather than counting words bc better representaiton of speed
         if (finished) {
             double typed = (double) progress.length();
-            return ((typed * 60)/((completionTime - startTime)/1000.0)) / 5;
+            return ((typed * 60.0)/((completionTime - startTime)/1000.0)) / 5;
         }
         if (indexDiff() == -1) {
             double typed = (double) progress.length();
-            return ((typed * 60)/((Instant.now().toEpochMilli() - startTime)/1000.0)) / 5;
+            return ((typed * 60.0)/((Instant.now().toEpochMilli() - startTime)/1000.0)) / 5;
         } else {
             double typed = indexDiff();
-            return ((typed * 60)/((Instant.now().toEpochMilli() - startTime)/1000.0)) / 5;
+            return ((typed * 60.0)/((Instant.now().toEpochMilli() - startTime)/1000.0)) / 5;
         }
 
     }
