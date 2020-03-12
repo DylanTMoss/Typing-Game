@@ -72,6 +72,7 @@ public class DataHandler {
         try {
             String ret = "";
             Scanner s = new Scanner(f);
+            s.useDelimiter("");
             while (s.hasNext()) {
                 ret+=s.next();
             }
