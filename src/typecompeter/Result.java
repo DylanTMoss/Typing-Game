@@ -40,4 +40,15 @@ public class Result {
     public void setAccuracy(Double accuracy) {
         this.accuracy = accuracy;
     }
+    
+    public int compareTo(Result r) {
+        int rWpm = r.getWpm();
+        if (wpm > r.getWpm()) {
+            return 1;
+        } else if (wpm == r.getWpm()) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
 }
