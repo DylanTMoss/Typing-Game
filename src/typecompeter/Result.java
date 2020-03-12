@@ -5,25 +5,22 @@
  */
 package typecompeter;
 
+import java.io.Serializable;
+
 /**
  *
  * @author dylan
  */
-public class Result {
+public class Result implements Comparable, Serializable{
     int wpm;
-    public int cnt = 0;
     double accuracy;
+    int day;
 
-    public Result(int wpm, Double accuracy) {
+    public Result(int wpm, Double accuracy, int day) {
         this.wpm = wpm;
         this.accuracy = accuracy;
+        this.day = day;
     }
-    
-    public void addWpm(int wpm) {
-        cnt++;
-        this.wpm = ((this.wpm * cnt) + wpm) / cnt;
-    }
-
 
     public int getWpm() {
         return wpm;
@@ -41,7 +38,9 @@ public class Result {
         this.accuracy = accuracy;
     }
     
-    public int compareTo(Result r) {
+    @Override
+    public int compareTo(Object o) {
+        Result r = (Result) o;
         int rWpm = r.getWpm();
         if (wpm > r.getWpm()) {
             return 1;
@@ -50,5 +49,13 @@ public class Result {
         } else {
             return -1;
         }
+    }
+    
+    public String toString() {
+        return "wpm: " + wpm;
+    }
+
+    public int getDay() {
+        return day;
     }
 }
