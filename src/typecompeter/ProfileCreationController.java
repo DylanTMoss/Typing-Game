@@ -18,12 +18,17 @@ public class ProfileCreationController {
     @FXML private TextField name_input;
     @FXML private TextField key_input;
     @FXML private AnchorPane rootPane;
+    private GuiController g;
+    
+    public void setGuiController(GuiController g) {
+        this.g = g;
+    }
     
     public void takeInput() {
         Profile p = new Profile(name_input.getText(),Integer.parseInt(key_input.getText())); //add safeguard incase inputn is not integer
         DataHandler.saveObject(p);
         Stage closeMe = (Stage) rootPane.getScene().getWindow();
+        g.updateProfiles();
         closeMe.close();
-        //send profile update event to reload loaded profiles
     }
 }

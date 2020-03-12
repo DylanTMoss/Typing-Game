@@ -34,7 +34,7 @@ public class GuiController {
     public ArrayList<Text> texts;
     public ArrayList<Profile> loaded;
     public Profile currentProfile;
-    int bots = 8;
+    int bots = 4;
 
     
     @FXML
@@ -49,11 +49,24 @@ public class GuiController {
             currentProfile = loaded.get(0);
         }
         updateTextTable();
-        
     }
+    
+    public void updateProfiles() {
+        DataHandler.getSavedProfiles().stream().forEach(prf -> loaded.add(prf));
+        
+        if (!loaded.isEmpty()) {
+            currentRacer.setText("Current Racer: " + loaded.get(0).getName().trim());
+            currentProfile = loaded.get(0);
+        }
+    }
+    
+    
     public void profileGoals() throws IOException {
+        FXMLLoader lode = new FXMLLoader();
 	Stage stage = new Stage();
-        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../fxml/ProfileCreation.fxml")));
+        Scene scene = new Scene(lode.load(getClass().getResource("../fxml/ProfileCreation.fxml").openStream()));
+        ProfileCreationController pcc = (ProfileCreationController) lode.getController();
+        pcc.setGuiController(this);
         stage.setScene(scene);
         stage.show();
     }
@@ -70,7 +83,7 @@ public class GuiController {
         } 
     }
     
-    public void startGame() throws IOException {
+    public void startGame() throws IOException, InterruptedException {
         int n = (int) (Math.random() * texts.size());
         ArrayList<Player> plrs = new ArrayList();
         if (currentProfile == null) {
@@ -89,30 +102,38 @@ public class GuiController {
     @FXML
     public void importText() {
 	JFileChooser fc = new JFileChooser();
+        fc.setMultiSelectionEnabled(true);
         int ret = fc.showOpenDialog(null);
         if (ret == JFileChooser.APPROVE_OPTION) {
-            File f = fc.getSelectedFile();
-            String s = DataHandler.parseText(f);
-            String[] parts = (f.getName()).split("\\.");
-            if (s != null) {
-                Text tmp = new Text(parts[0],s);
-                DataHandler.saveObject(tmp);
-                updateTextTable();
-            } else {
-                //make error gui
+            File[] files = fc.getSelectedFiles();
+            for (File f : files) {
+                String s = DataHandler.parseText(f);
+                String[] parts = (f.getName()).split("\\.");
+                if (s != null) {
+                    Text tmp = new Text(parts[0],s);
+                    DataHandler.saveObject(tmp);
+                    updateTextTable();
+                } else {
+                    //make error gui
+                }
             }
         }
     }
     
     public void viewStats() throws IOException {
+        FXMLLoader loda = new FXMLLoader();
         Stage stage = new Stage();
-        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../fxml/ProfileStats.fxml")));
+        Scene scene = new Scene(loda.load(getClass().getResource("../fxml/ProfileStats.fxml").openStream()));
+        ProfileStatsController p = (ProfileStatsController) loda.getController();
+        System.out.println(currentProfile);
+        p.setProfile(currentProfile);
         stage.setScene(scene);
         stage.show();
     }
 
     @FXML
     private void updateTextTable() {
+        textTable.getItems().clear();
         texts = DataHandler.getSavedTexts();
         for (Text t : texts) {
             textTable.getItems().add(t);
